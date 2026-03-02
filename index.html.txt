@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Holi ??</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{
+overflow:hidden;
+text-align:center;
+color:white;
+background:linear-gradient(135deg,#ff9a9e,#fad0c4,#fbc2eb,#a18cd1);
+background-size:400% 400%;
+animation:bg 8s infinite alternate;
+}
+@keyframes bg{
+0%{background-position:left;}
+100%{background-position:right;}
+}
+.container{
+position:relative;
+z-index:2;
+top:50%;
+transform:translateY(-50%);
+padding:20px;
+}
+h1{font-size:clamp(28px,6vw,48px);}
+p{margin:15px auto;max-width:600px;}
+a{
+display:inline-block;
+margin:10px;
+padding:12px 25px;
+border-radius:25px;
+background:white;
+color:#ff4081;
+text-decoration:none;
+font-weight:bold;
+transition:.3s;
+}
+a:hover{transform:scale(1.1);background:#ffe600;}
+
+canvas{position:fixed;top:0;left:0;z-index:1;}
+
+.heart{
+position:fixed;
+bottom:-20px;
+font-size:20px;
+animation:float 6s linear infinite;
+}
+@keyframes float{
+0%{transform:translateY(0);opacity:1;}
+100%{transform:translateY(-100vh);opacity:0;}
+}
+</style>
+</head>
+<body>
+
+<canvas id="fireworks"></canvas>
+
+<div class="container">
+<h1>?? Happy Holi ??</h1>
+<p>
+Iss Holi bas itna kehna hai…  
+Chahe tum dost ho ya bestie, tum meri life ka sabse pyara rang ho ???
+</p>
+
+<a href="special.html">?? Special Surprise</a>
+<a href="memories.html">?? Memories</a>
+</div>
+
+<script>
+/* Floating Hearts */
+setInterval(()=>{
+let heart=document.createElement("div");
+heart.classList.add("heart");
+heart.innerHTML="??";
+heart.style.left=Math.random()*100+"vw";
+heart.style.fontSize=(20+Math.random()*20)+"px";
+document.body.appendChild(heart);
+setTimeout(()=>{heart.remove();},6000);
+},500);
+
+/* Fireworks */
+const canvas=document.getElementById("fireworks");
+const ctx=canvas.getContext("2d");
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+let particles=[];
+function createFirework(){
+let x=Math.random()*canvas.width;
+let y=Math.random()*canvas.height/2;
+for(let i=0;i<50;i++){
+particles.push({
+x,y,
+radius:2,
+color:`hsl(${Math.random()*360},100%,60%)`,
+speedX:(Math.random()-0.5)*4,
+speedY:(Math.random()-0.5)*4,
+alpha:1
+});
+}}
+function animate(){
+requestAnimationFrame(animate);
+ctx.fillStyle="rgba(0,0,0,0.1)";
+ctx.fillRect(0,0,canvas.width,canvas.height);
+particles.forEach((p,i)=>{
+p.x+=p.speedX;
+p.y+=p.speedY;
+p.alpha-=0.02;
+if(p.alpha<=0)particles.splice(i,1);
+ctx.globalAlpha=p.alpha;
+ctx.beginPath();
+ctx.arc(p.x,p.y,p.radius,0,Math.PI*2);
+ctx.fillStyle=p.color;
+ctx.fill();
+});
+}
+setInterval(createFirework,1000);
+animate();
+</script>
+
+</body>
+</html>
